@@ -13,7 +13,7 @@ struct GithubProfileFinderApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(services: GitHubProfileFinderServices())
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
