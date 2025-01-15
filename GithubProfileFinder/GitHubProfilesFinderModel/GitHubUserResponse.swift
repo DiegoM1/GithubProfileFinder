@@ -5,8 +5,9 @@
 //  Created by Diego Monteagudo Diaz on 13/01/25.
 //
 import Foundation
+import SwiftData
 
-struct GitHubUserResponse: Identifiable, Decodable, Hashable {
+struct GitHubUserResponse: Identifiable, Codable, Hashable {
     var id: Int
     var name: String?
     var login: String
@@ -17,7 +18,6 @@ struct GitHubUserResponse: Identifiable, Decodable, Hashable {
     var following: Int
     var createdAt: String
     var publicRepos: Int
-
 
     func formatterDate() -> String {
         let dateFormatter = DateFormatter()

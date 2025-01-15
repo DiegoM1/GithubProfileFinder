@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SearchedAccountCell: View {
-
     var userData: GitHubUserResponse
 
     init(userData: GitHubUserResponse) {
@@ -40,7 +39,6 @@ struct SearchedAccountCell: View {
                         .fontWeight(.light)
                     Spacer()
                     VStack {
-                        let _ = print(userData.publicRepos)
                         Text("\(userData.publicRepos)")
                             .fontWeight(.black)
                         Text("Repositories")
