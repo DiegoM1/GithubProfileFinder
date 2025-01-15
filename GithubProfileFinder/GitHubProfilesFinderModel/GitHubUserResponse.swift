@@ -8,22 +8,22 @@ import Foundation
 
 struct GitHubUserResponse: Identifiable, Decodable, Hashable {
     var id: Int
+    var name: String?
     var login: String
     var avatarUrl: String
     var url: String
     var reposUrl: String
     var followers: Int
     var following: Int
-    var updatedAt: String
-    
-    func formatterDate() -> Date {
-        let formatter = ISO8601DateFormatter()
+    var createdAt: String
+    var publicRepos: Int
 
-        formatter.formatOptions = [
-            .withDashSeparatorInDate,
-            .withFullDate
-        ]
 
-        return formatter.date(from: self.updatedAt) ?? Date()
+    func formatterDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let createdAt = dateFormatter.date(from: self.createdAt)
+
+        return createdAt?.formatted(date: .long, time: .omitted) ?? ""
     }
 }

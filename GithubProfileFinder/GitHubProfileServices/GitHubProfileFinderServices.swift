@@ -25,10 +25,8 @@ class GitHubProfileFinderServices: GitHubProfileFinderServicesProtocol, Observab
         }
 
         let request = URLRequest(url: url)
-        print(url)
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
-            print(data)
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             let fetchedData = try decoder.decode(GitHubUserResponse.self, from: data)
