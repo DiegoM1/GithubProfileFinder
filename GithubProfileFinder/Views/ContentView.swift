@@ -10,13 +10,25 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var profiles: [RecentGithubProfile]
 
+    @StateObject var model = Model()
     @State var searchText = ""
-    @State var userData: GitHubUserResponse?
-    @State var stateController: ViewStateController = .error
     var services: GitHubProfileFinderServicesProtocol
-    
+
+    var filteredProfiles: [RecentGithubProfile] {
+        if searchText.isEmpty {
+            profiles
+        } else {
+            profiles.filter { profile in
+                if let name = profile.user.name {
+                    return name.contains(searchText)
+                }
+                return profile.user.login.contains(searchText.lowercased())
+            }
+        }
+    }
+
     init(services: GitHubProfileFinderServicesProtocol) {
         self.services = services
     }
@@ -24,86 +36,85 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Result", content: {
-                    switch stateController {
-                    case .loading:
-                        ProgressView()
-                    case .success:
-                        if let data = userData {
-                            NavigationLink(value: data) {
-                                SearchedAccountCell(userData: data)
+                if !searchText.isEmpty {
+                    Section("Result", content: {
+                        switch model.viewState {
+                        case .loading:
+                            ProgressView()
+                        case .success:
+                            if let userInfo = model.userInfo {
+                                NavigationLink(value: userInfo) {
+                                    SearchedAccountCell(userData: userInfo)
+                                }
+                            }
+                        case .error:
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .center) {
+                                    Text("User not found")
+                                        .font(.headline)
+                                        .padding()
+                                    Image(systemName: "person.crop.circle.badge.exclamationmark")
+                                        .resizable()
+                                        .frame(width: 45, height: 40)
+                                }
+                                Spacer()
                             }
                         }
-                    case .error:
-                        HStack {
-                            Spacer()
-                            VStack(alignment: .center) {
-                                Text("User not found")
-                                    .font(.headline)
-                                    .padding()
-                                Image(systemName: "person.crop.circle.badge.exclamationmark")
-                                    .resizable()
-                                    .frame(width: 45, height: 40)
+                    })
+                }
+
+                if !filteredProfiles.isEmpty {
+                    Section("Recents") {
+                        ForEach(filteredProfiles) { info in
+                            NavigationLink(value: info) {
+                                SearchedAccountCell(userData: info.user)
                             }
-                            Spacer()
                         }
                     }
-                })
+                }
             }
             .navigationTitle("GitHub Finder")
             .navigationBarTitleDisplayMode(.large)
-            .navigationDestination(for: GitHubUserResponse.self) { user in
-                ProfileDetails(userData: user, services: services)
+            .navigationDestination(for: GitHubUserResponse.self) { _ in
+                ProfileDetails()
+                    .environmentObject(model)
+            }
+            .navigationDestination(for: RecentGithubProfile.self) { profile in
+                ProfileDetails()
+                    .environmentObject(model)
+                    .onAppear {
+                        model.userInfo = profile.user
+                        model.repositoriesInfo = profile.repositories
+                    }
             }
         }
         .onChange(of: searchText, {
             if searchText.isEmpty {
-                userData = nil
+                model.userInfo = nil
             }
         })
         .searchable(text: $searchText, prompt: Text("Search"))
         .onSubmit(of: .search) {
             Task {
-                await fetchResults()
+                await model.fetchResults(searchText)
             }
         }
-
-    }
-
-    private func fetchResults() async {
-        do {
-            stateController = .loading
-            userData = try await services.fetchUser(id: searchText)
-            stateController = .success
-        } catch {
-            stateController = .error
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
+        .onAppear {
+            model.modelContext = modelContext
         }
     }
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(items[index])
+                modelContext.delete(profiles[index])
             }
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
 #Preview {
     ContentView(services: GitHubProfileFinderServices())
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: RecentGithubProfile.self, inMemory: true)
 }

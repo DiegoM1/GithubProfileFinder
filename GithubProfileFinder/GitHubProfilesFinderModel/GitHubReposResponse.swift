@@ -6,11 +6,10 @@
 //
 import Foundation
 
-struct GitHubReposResponse: Identifiable, Decodable, Hashable {
+struct GitHubReposResponse: Identifiable, Codable, Hashable {
     var id: Int
     var name: String
     var htmlUrl: String
-    var description: String?
     var isPrivate: Bool
     var updatedAt: String
     var stargazersCount: Int
@@ -32,7 +31,6 @@ struct GitHubReposResponse: Identifiable, Decodable, Hashable {
     private enum CodingKeys: String, CodingKey {
         case id
         case name
-        case description
         case htmlUrl = "html_url"
         case isPrivate = "private"
         case updatedAt = "updated_at"
