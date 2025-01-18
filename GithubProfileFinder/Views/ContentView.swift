@@ -64,15 +64,11 @@ struct ContentView: View {
                             }
                         case .searching:
                             HStack {
-                                Spacer()
-                                VStack(alignment: .center) {
-                                    Text("Press enter to search")
+                                    Text("Press search")
                                         .font(.headline)
-                                        .padding()
                                     Image(systemName: "magnifyingglass.circle.fill")
                                         .resizable()
-                                        .frame(width: 45, height: 40)
-                                }
+                                        .frame(width: 16, height: 16)
                                 Spacer()
                             }
                         }
@@ -90,7 +86,7 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("GitHub Finder")
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: GitHubUserResponse.self) { _ in
                 ProfileDetails()
                     .environmentObject(model)
@@ -104,10 +100,10 @@ struct ContentView: View {
                     }
             }
             .toolbar(content: {
-                Toggle("Appearance", isOn: $scheme)
+                Toggle("", systemImage: "lightbulb.min.fill", isOn: $scheme)
                     .toggleStyle(SwitchToggleStyle(tint: .red))
             })
-            .toolbarTitleDisplayMode(.inlineLarge)
+            .toolbarTitleDisplayMode(.inline)
         }
         .onChange(of: searchText, {
             if searchText.isEmpty {
