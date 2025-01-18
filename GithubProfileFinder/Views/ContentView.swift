@@ -10,9 +10,11 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) var colorScheme
     @Query private var profiles: [RecentGithubProfile]
 
     @StateObject var model = Model()
+    @State var scheme = true
     @State var searchText = ""
     var services: GitHubProfileFinderServicesProtocol
 
@@ -60,6 +62,19 @@ struct ContentView: View {
                                 }
                                 Spacer()
                             }
+                        case .searching:
+                            HStack {
+                                Spacer()
+                                VStack(alignment: .center) {
+                                    Text("Press enter to search")
+                                        .font(.headline)
+                                        .padding()
+                                    Image(systemName: "magnifyingglass.circle.fill")
+                                        .resizable()
+                                        .frame(width: 45, height: 40)
+                                }
+                                Spacer()
+                            }
                         }
                     })
                 }
@@ -88,14 +103,38 @@ struct ContentView: View {
                         model.repositoriesInfo = profile.repositories
                     }
             }
+            .toolbar(content: {
+                Toggle("Appearance", isOn: $scheme)
+                    .toggleStyle(SwitchToggleStyle(tint: .red))
+            })
+            .toolbarTitleDisplayMode(.inlineLarge)
         }
         .onChange(of: searchText, {
             if searchText.isEmpty {
                 model.userInfo = nil
+            } else {
+                model.viewState = .searching
             }
         })
+        .onAppear(perform: {
+            guard let schemeColor = UserDefaults.standard.value(forKey: "scheme") as? Bool else {
+                return
+            }
+            scheme = schemeColor
+        })
         .searchable(text: $searchText, prompt: Text("Search"))
+        .onChange(of: scheme) {
+            UserDefaults.standard.set(scheme, forKey: "scheme")
+            let scenes = UIApplication.shared.connectedScenes
+                   let windowScene = scenes.first as? UIWindowScene
+            windowScene?.windows.forEach { window in
+                withAnimation {
+                    window.overrideUserInterfaceStyle = scheme ? .light : .dark
+                }
+            }
+        }
         .onSubmit(of: .search) {
+            model.viewState = .loading
             Task {
                 await model.fetchResults(searchText)
             }

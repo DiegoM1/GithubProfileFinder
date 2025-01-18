@@ -12,6 +12,10 @@ struct ProfileDetails: View {
     @EnvironmentObject var model: Model
     @State var offSet = 0.0
 
+    private var recentRepositories: [GitHubReposResponse]? {
+        model.repositoriesInfo?.sorted { $0.updatedAt.transformToDate() < $1.updatedAt.transformToDate() }.suffix(4)
+    }
+
     var body: some View {
         if let userInfo = model.userInfo {
             ScrollView {
@@ -20,9 +24,10 @@ struct ProfileDetails: View {
                     VStack(alignment: .leading, spacing: 0) {
                         ZStack {
                             Color.green
-                            Image("background2")
+                            Image("profileBackground")
                                 .resizable()
                                 .opacity(0.8)
+                                .overlay(Divider().background(.green), alignment: .bottom)
                             AsyncImage(url: URL(string: userInfo.avatarUrl)) { image in
                                 image
                                     .resizable()
@@ -48,19 +53,18 @@ struct ProfileDetails: View {
                         .offset(y: min(0, -offset))
                         .frame(height: max(240, 240 + offset))
 
-                        HStack(spacing: 30) {
+                        HStack(spacing: 25) {
                             VStack(alignment: .center) {
                                 if let repositoriesInfo = model.repositoriesInfo {
-                                    Text(String(model.repositoriesInfo?.count ?? 0))
+                                    Text(String(repositoriesInfo.count))
                                         .fontWeight(.black)
                                 } else {
                                     ProgressView()
                                 }
-                                Text("repositories")
+                                Text("Repositories")
                                     .fontWeight(.light)
                                     .foregroundStyle(.gray)
                             }
-
                             VStack(alignment: .center) {
                                 Text("\(self.getStarts())")
                                     .fontWeight(.black)
@@ -68,15 +72,14 @@ struct ProfileDetails: View {
                                     .fontWeight(.light)
                                     .foregroundStyle(.gray)
                             }
-
                             VStack(alignment: .center) {
                                 Text(String(userInfo.followers))
                                     .fontWeight(.black)
                                 Text("Followers")
+
                                     .fontWeight(.light)
                                     .foregroundStyle(.gray)
                             }
-
                             VStack(alignment: .center) {
                                 Text(String(userInfo.following))
                                     .fontWeight(.black)
@@ -89,12 +92,11 @@ struct ProfileDetails: View {
                         .offset(y: min(0, -offset))
                         .padding(.horizontal, 12)
                         .padding(.top, 24)
-                        if let repositoriesInfo = model.repositoriesInfo {
-                            VStack(alignment: .leading) {
+                        if let recentRepositories = recentRepositories {
+                            LazyVStack(alignment: .leading) {
                                 Text("Recent Updated")
-                                ForEach(repositoriesInfo.sorted { $0.formatterDate() < $1.formatterDate() }.suffix(4)) { repo in
+                                ForEach(recentRepositories) { repo in
                                     RepositorieCell(reposData: repo)
-                                        .foregroundStyle(.black)
                                 }
                             }
                             .offset(y: min(0, -offset))

@@ -17,17 +17,6 @@ struct GitHubReposResponse: Identifiable, Codable, Hashable {
     var language: String?
     var forks: Int
 
-    func formatterDate() -> Date {
-        let formatter = ISO8601DateFormatter()
-
-        formatter.formatOptions = [
-            .withDashSeparatorInDate,
-            .withFullDate
-        ]
-
-        return formatter.date(from: self.updatedAt) ?? Date()
-    }
-
     private enum CodingKeys: String, CodingKey {
         case id
         case name
