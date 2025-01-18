@@ -34,7 +34,7 @@ struct SearchedAccountCell: View {
                         .fontWeight(.semibold)
                 }
                 HStack(alignment: .bottom) {
-                    Text("\(userData.formatterDate())")
+                    Text("\(userData.createdAt.formatterDate())")
                         .font(.footnote)
                         .fontWeight(.light)
                     Spacer()

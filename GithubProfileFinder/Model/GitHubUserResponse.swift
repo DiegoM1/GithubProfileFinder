@@ -18,12 +18,4 @@ struct GitHubUserResponse: Identifiable, Codable, Hashable {
     var following: Int
     var createdAt: String
     var publicRepos: Int
-
-    func formatterDate() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        let createdAt = dateFormatter.date(from: self.createdAt)
-
-        return createdAt?.formatted(date: .long, time: .omitted) ?? ""
-    }
 }

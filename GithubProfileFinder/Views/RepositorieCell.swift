@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RepositorieCell: View {
     @Environment(\.openURL) var openURL
+    @Environment(\.colorScheme) var colorScheme
 
     var reposData: GitHubReposResponse
 
@@ -59,24 +60,16 @@ struct RepositorieCell: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 6)
-                .fill(Color.white)
+                .fill(Color("AccentColor"))
         )
         .compositingGroup()
-        .shadow(radius: 3)
+        .shadow(color: colorScheme == .light ? .black : .white, radius: 3)
         .onTapGesture {
             guard let url = URL(string: reposData.htmlUrl) else { return }
             openURL(url)
         }
     }
     
-}
-
-extension UINavigationController {
-  open override func viewWillLayoutSubviews() {
-    super.viewWillLayoutSubviews()
-    navigationBar.topItem?.backButtonDisplayMode = .minimal
-  }
-
 }
 
 #Preview {

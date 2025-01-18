@@ -6,5 +6,5 @@
 //
 
 enum ViewStateController {
-    case loading, success, error
+    case loading, success, error, searching
 }
