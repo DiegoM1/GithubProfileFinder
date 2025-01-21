@@ -1,5 +1,5 @@
 ## Badges
-[![GitHub](https://img.shields.io/badge/GitHub-gray.svg)](https://docs.github.com/en/rest?apiVersion=2022-11-28)[![iOS](https://img.shields.io/badge/iOS-white.svg)](https://developer.apple.com) [![Swift](https://img.shields.io/badge/swift-orange.svg)](https://developer.apple.com/documentation/swift/)[![SwiftData](https://img.shields.io/badge/swiftData-blue.svg)](https://developer.apple.com/xcode/swiftdata/)
+[![GitHub](https://img.shields.io/badge/GitHub-gray.svg)](https://docs.github.com/en/rest?apiVersion=2022-11-28) [![iOS](https://img.shields.io/badge/iOS-white.svg)](https://developer.apple.com)   [![Swift](https://img.shields.io/badge/swift-orange.svg)](https://developer.apple.com/documentation/swift/)  [![SwiftData](https://img.shields.io/badge/swiftData-blue.svg)](https://developer.apple.com/xcode/swiftdata/)
 
 
 # GithubProfileFinder App
@@ -37,16 +37,12 @@ Insert gif or link to demo
 
 
 ## Screenshots
-| Recents | Details |
-|-------------------|----------------|
-|![Recents](https://ibb.co/cNnSgPV)|![Details](https://ibb.co/gmshht4)|
+| Recents | Search | Details |
+|-------------------|---------|----------------|
+|![Recents](https://i.ibb.co/Hr8fF03/image-2025-01-21-122407257.png)| ![Search](https://i.ibb.co/ZW0jTYW/2cfe0161-f636-46bd-a19f-eb0b6401fdfb.jpg)|![Details](https://i.ibb.co/ydL77g4/35d00190-edb9-493d-acf9-2c89735cbd46.jpg)|
 
 
 
 ## Authors
 
 - [@DiegoM1](https://github.com/DiegoM1)
-
-
-![Logo](https://ibb.co/vVyXnrV)
-
