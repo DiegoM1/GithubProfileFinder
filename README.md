@@ -32,14 +32,17 @@ Soon... Just run tests using xcode.
 
 
 ## Demo
+|Gif|
+|-------|
+|![SimulatorScreenRecording-iPhone16Pro-2025-01-21at21 54 28-ezgif com-resize](https://github.com/user-attachments/assets/943a7195-3a38-4955-afcd-ed5f04edac81)|
 
-Insert gif or link to demo
 
 
 ## Screenshots
 | Recents | Search | Details |
 |-------------------|---------|----------------|
-|![Recents](https://i.ibb.co/Hr8fF03/image-2025-01-21-122407257.png)| ![Search](https://i.ibb.co/ZW0jTYW/2cfe0161-f636-46bd-a19f-eb0b6401fdfb.jpg)|![Details](https://i.ibb.co/ydL77g4/35d00190-edb9-493d-acf9-2c89735cbd46.jpg)|
+|![Recents](https://github.com/user-attachments/assets/73268016-50ff-4cfc-91c5-8ae83fa9ee02)|![Search](https://github.com/user-attachments/assets/cbdcbefe-ac18-4ff7-9973-80ffd97dfe3e)|![Details](https://github.com/user-attachments/assets/ea6417e0-13b0-41f6-8dd5-3e91ee0e130d)|
+
 
 
 
