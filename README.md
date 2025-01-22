@@ -32,9 +32,7 @@ Soon... Just run tests using xcode.
 
 
 ## Demo
-|Gif|
-|-------|
-|![SimulatorScreenRecording-iPhone16Pro-2025-01-21at21 54 28-ezgif com-resize](https://github.com/user-attachments/assets/943a7195-3a38-4955-afcd-ed5f04edac81)|
+<img src="https://github.com/user-attachments/assets/943a7195-3a38-4955-afcd-ed5f04edac81" height="609" width="280">
 
 
 
