@@ -20,11 +20,11 @@ struct ContentView: View {
 
     var filteredProfiles: [RecentGithubProfile] {
         if searchText.isEmpty {
-            profiles
+            profiles.reversed()
         } else {
             profiles.filter { profile in
                 if let name = profile.user.name {
-                    return name.contains(searchText)
+                    return name.contains(searchText) || profile.user.login.contains(searchText)
                 }
                 return profile.user.login.contains(searchText.lowercased())
             }
@@ -99,11 +99,12 @@ struct ContentView: View {
                         model.repositoriesInfo = profile.repositories
                     }
             }
-            .toolbar(content: {
-                Toggle("", systemImage: "lightbulb.min.fill", isOn: $scheme)
-                    .toggleStyle(SwitchToggleStyle(tint: .red))
-            })
-            .toolbarTitleDisplayMode(.inline)
+            .toolbar {
+                Button("", systemImage: scheme == true ? "moon.fill" : "sun.max.fill") {
+                    scheme.toggle()
+                }
+                .tint(scheme ? .black : .white)
+            }
         }
         .onChange(of: searchText, {
             if searchText.isEmpty {
@@ -112,6 +113,7 @@ struct ContentView: View {
                 model.viewState = .searching
             }
         })
+        .preferredColorScheme(scheme ? .light : .dark)
         .onAppear(perform: {
             guard let schemeColor = UserDefaults.standard.value(forKey: "scheme") as? Bool else {
                 return
@@ -121,13 +123,6 @@ struct ContentView: View {
         .searchable(text: $searchText, prompt: Text("Search"))
         .onChange(of: scheme) {
             UserDefaults.standard.set(scheme, forKey: "scheme")
-            let scenes = UIApplication.shared.connectedScenes
-                   let windowScene = scenes.first as? UIWindowScene
-            windowScene?.windows.forEach { window in
-                withAnimation {
-                    window.overrideUserInterfaceStyle = scheme ? .light : .dark
-                }
-            }
         }
         .onSubmit(of: .search) {
             model.viewState = .loading
