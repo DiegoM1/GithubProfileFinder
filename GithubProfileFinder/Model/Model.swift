@@ -45,7 +45,15 @@ class Model: ObservableObject {
         }
         withAnimation {
             let newItem = RecentGithubProfile(id: userInfo.id, user: userInfo, repositories: repositories)
-            modelContext?.insert(newItem)
+            let fetchDescriptor = FetchDescriptor<RecentGithubProfile>()
+            let data = try? modelContext?.fetch(fetchDescriptor)
+            if data?.count ?? 0 >= 5 {
+                modelContext?.delete(data?.first ?? newItem)
+                modelContext?.insert(newItem)
+            } else {
+                modelContext?.insert(newItem)
+            }
+
             try? modelContext?.save()
         }
     }
