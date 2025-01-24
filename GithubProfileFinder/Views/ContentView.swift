@@ -93,6 +93,7 @@ struct ContentView: View {
             }
             .navigationDestination(for: RecentGithubProfile.self) { profile in
                 ProfileDetails()
+                    .ignoresSafeArea(.container, edges: .top)
                     .environmentObject(model)
                     .onAppear {
                         model.userInfo = profile.user
