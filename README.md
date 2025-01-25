@@ -32,9 +32,9 @@ Soon... Just run tests using xcode.
 
 
 ## Demo
-| Flow | Details Header Animation | 
-| -------- | -------|
-|<img src="https://github.com/user-attachments/assets/943a7195-3a38-4955-afcd-ed5f04edac81" height="609" width="280">| <img src="https://github.com/user-attachments/assets/c6e43af3-c4e6-430a-875f-6f88caf1b01f" height="609" width="280">|
+| Flow | Details Header Animation ( Light appearance ) | Details Header Animation ( Dark appearance )
+| -------- | -------| --------- |
+|<img src="https://github.com/user-attachments/assets/943a7195-3a38-4955-afcd-ed5f04edac81" height="609" width="280">| <img src="https://github.com/user-attachments/assets/1783e4eb-e016-4b4b-93c5-11f18708cecd" height="609" width="280">|<img src="https://github.com/user-attachments/assets/7a9f0e65-aa09-4dca-8a90-c50fab065d08" height="609" width="280">|
 
 
 
