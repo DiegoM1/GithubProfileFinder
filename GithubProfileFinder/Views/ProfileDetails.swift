@@ -77,6 +77,7 @@ struct ProfileDetails: View {
                             Text("Recent Updated")
                             ForEach(recentRepositories) { repo in
                                 RepositorieCell(reposData: repo)
+                                    .padding(.bottom, 15)
                             }
                         }
                         .padding()
@@ -106,11 +107,9 @@ struct ProfileDetails: View {
     func CustomToolbar(userInfo: GitHubUserResponse) -> some View {
         GeometryReader { geo in
             let minY = geo.frame(in: .named("details")).minY
-            let _ = print("Min Y: \(minY)")
             let height = size * 0.45
             let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
             let titleProgress = minY / height
-            let _ = print(progress, titleProgress)
 
             HStack(spacing: 15) {
                 Button {
