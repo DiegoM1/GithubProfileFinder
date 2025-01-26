@@ -22,7 +22,7 @@ struct ProfileDetails: View {
         if let userInfo = model.userInfo {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .center, spacing: 0) {
-                    HeaderView(userInfo: userInfo)
+                    HeaderView(userInfo: userInfo, height: size, colorScheme)
                     Spacer(minLength: 0)
                     if let name = userInfo.name {
                         Text(name)
@@ -91,7 +91,7 @@ struct ProfileDetails: View {
                     }
                 }
                 .overlay(alignment: .top) {
-                    CustomToolbar(userInfo: userInfo)
+                    CustomToolbar(userInfo: userInfo, height: size, ColorScheme: colorScheme, dismiss)
                 }
             }
             .toolbar(.hidden)
@@ -103,111 +103,136 @@ struct ProfileDetails: View {
         }
     }
 
-    @ViewBuilder
-    func CustomToolbar(userInfo: GitHubUserResponse) -> some View {
-        GeometryReader { geo in
-            let minY = geo.frame(in: .named("details")).minY
-            let height = size * 0.45
-            let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
-            let titleProgress = minY / height
-
-            HStack(spacing: 15) {
-                Button {
-                    dismiss()
-                } label: {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                            .font(.title3)
-                            .foregroundStyle(colorScheme == .light ? .black : .white)
-                    }
-                    .frame(width: 30, height: 30)
-                }
-                .padding(.leading, 15)
-                .padding(.bottom, 15)
-                Spacer()
-            }
-            .overlay {
-                Text(userInfo.login)
-                    .fontWeight(.bold)
-                    .foregroundStyle(colorScheme == .light ? .black : .white)
-                    .padding()
-                    .offset(y: -titleProgress > 0.85 ? 0 : 45)
-                    .clipped()
-                    .animation(.easeOut(duration: 0.25), value: -titleProgress > 0.75)
-            }
-            .padding(.top, geo.safeAreaInsets.top + 100)
-            .background {
-                Color.accent.opacity(-progress > 1 ? 1 : 0)
-            }
-            .frame(height: 36 + geo.safeAreaInsets.top)
-            .offset(y: -minY)
-
-        }
-        .frame(height: 36)
-    }
-
-    @ViewBuilder
-    func HeaderView(userInfo: GitHubUserResponse ) -> some View {
-        let imageSize = size * 0.45
-        GeometryReader { geo in
-            let size = geo.size
-            let offSet = geo.frame(in: .named("details")).minY
-            let progress = offSet / (imageSize * 0.8)
-            ZStack {
-                Color.green
-                Image("profileBackground")
-                    .resizable()
-                    .scaledToFill()
-                    .opacity(0.8)
-                    .overlay(Divider().background(.green), alignment: .bottom)
-                AsyncImage(url: URL(string: userInfo.avatarUrl)) { image in
-                    image
-                        .resizable()
-                        .clipShape( Circle())
-                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                        .scaledToFill()
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(width: offSet > 0 ? imageSize / 2 + offSet / 3 : imageSize / 2, height: offSet > 0 ? imageSize / 2 + offSet / 3 : imageSize / 2)
-            }
-            .frame(width: size.width, height: size.height + (offSet > 0 ? offSet : 0))
-            .overlay {
-                ZStack(alignment: .bottom) {
-                    Rectangle()
-                        .fill(.linearGradient(colors: getGradient(colorScheme == .light ? .white : .black, progress: progress),
-                                              startPoint: .center,
-                                              endPoint: .bottom))
-                    VStack {
-                        Text(userInfo.login)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(50)
-                }
-            }
-            .offset(y: offSet > 0 ? -offSet : 0)
-        }
-        .frame(height: imageSize + 100)
-
-    }
-
-    private func getGradient(_ color: Color, progress: CGFloat) -> [Color] {
-        return  [color.opacity(0 - progress),
-                 color.opacity(0.1 - progress),
-                 color.opacity(0.3 - progress),
-                 color.opacity(0.5 - progress),
-                 color.opacity(0.8 - progress),
-                 color.opacity(1 - progress)]
-    }
-
     private func getStarts() -> Int {
         model.repositoriesInfo?.reduce(0, { partialResult, response in
             partialResult + response.stargazersCount
         }) ?? 0
     }
 
+}
+
+private extension ProfileDetails {
+    
+    struct CustomToolbar: View {
+        let userInfo: GitHubUserResponse
+        let height: CGFloat
+        let colorScheme: ColorScheme
+        let dismiss: DismissAction
+
+        init(userInfo: GitHubUserResponse, height: CGFloat, ColorScheme: ColorScheme, _ dismiss: DismissAction) {
+            self.userInfo = userInfo
+            self.height = height
+            self.colorScheme = ColorScheme
+            self.dismiss = dismiss
+        }
+
+        var body: some View {
+            GeometryReader { geo in
+                let minY = geo.frame(in: .named("details")).minY
+                let height = height * 0.45
+                let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
+                let titleProgress = minY / height
+
+                HStack(spacing: 15) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .font(.title3)
+                                .foregroundStyle(colorScheme == .light ? .black : .white)
+                        }
+                        .frame(width: 30, height: 30)
+                    }
+                    .padding(.leading, 15)
+                    .padding(.bottom, 15)
+                    Spacer()
+                }
+                .overlay {
+                    Text(userInfo.login)
+                        .fontWeight(.bold)
+                        .foregroundStyle(colorScheme == .light ? .black : .white)
+                        .padding()
+                        .offset(y: -titleProgress > 0.85 ? 0 : 45)
+                        .clipped()
+                        .animation(.easeOut(duration: 0.25), value: -titleProgress > 0.75)
+                }
+                .padding(.top, geo.safeAreaInsets.top + 100)
+                .background {
+                    Color.accent.opacity(-progress > 1 ? 1 : 0)
+                }
+                .frame(height: 36 + geo.safeAreaInsets.top)
+                .offset(y: -minY)
+
+            }
+            .frame(height: 36)
+        }
+    }
+    struct HeaderView: View {
+        let userInfo: GitHubUserResponse
+        let height: CGFloat
+        let colorScheme: ColorScheme
+
+        init(userInfo: GitHubUserResponse, height: CGFloat, _ colorScheme: ColorScheme) {
+            self.userInfo = userInfo
+            self.height = height
+            self.colorScheme = colorScheme
+        }
+
+        var body: some View {
+            let imageSize = height * 0.45
+            GeometryReader { geo in
+                let size = geo.size
+                let offSet = geo.frame(in: .named("details")).minY
+                let progress = offSet / (imageSize * 0.8)
+                ZStack {
+                    Color.green
+                    Image("profileBackground")
+                        .resizable()
+                        .scaledToFill()
+                        .opacity(0.8)
+                        .overlay(Divider().background(.green), alignment: .bottom)
+                    AsyncImage(url: URL(string: userInfo.avatarUrl)) { image in
+                        image
+                            .resizable()
+                            .clipShape( Circle())
+                            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                            .scaledToFill()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: offSet > 0 ? imageSize / 2 + offSet / 3 : imageSize / 2, height: offSet > 0 ? imageSize / 2 + offSet / 3 : imageSize / 2)
+                }
+                .frame(width: size.width, height: size.height + (offSet > 0 ? offSet : 0))
+                .overlay {
+                    ZStack(alignment: .bottom) {
+                        Rectangle()
+                            .fill(.linearGradient(colors: getGradient(colorScheme == .light ? .white : .black, progress: progress),
+                                                  startPoint: .center,
+                                                  endPoint: .bottom))
+                        VStack {
+                            Text(userInfo.login)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(50)
+                    }
+                }
+                .offset(y: offSet > 0 ? -offSet : 0)
+            }
+            .frame(height: imageSize + 100)
+        }
+
+        private func getGradient(_ color: Color, progress: CGFloat) -> [Color] {
+            return  [color.opacity(0 - progress),
+                     color.opacity(0.1 - progress),
+                     color.opacity(0.3 - progress),
+                     color.opacity(0.5 - progress),
+                     color.opacity(0.8 - progress),
+                     color.opacity(1 - progress)]
+        }
+    }
 }
 
 
