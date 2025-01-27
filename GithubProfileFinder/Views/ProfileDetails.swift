@@ -87,7 +87,9 @@ struct ProfileDetails: View {
                 }
                 .onAppear {
                     Task {
-                        await model.fetchRepositories()
+                        if model.repositoriesInfo == nil {
+                            await model.fetchRepositories()
+                        }
                     }
                 }
                 .overlay(alignment: .top) {
@@ -95,7 +97,6 @@ struct ProfileDetails: View {
                 }
             }
             .toolbar(.hidden)
-
             .onDisappear {
                 model.repositoriesInfo = nil
             }

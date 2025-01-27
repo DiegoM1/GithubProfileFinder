@@ -89,6 +89,7 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: GitHubUserResponse.self) { _ in
                 ProfileDetails()
+                    .ignoresSafeArea(.container, edges: .top)
                     .environmentObject(model)
             }
             .navigationDestination(for: RecentGithubProfile.self) { profile in
