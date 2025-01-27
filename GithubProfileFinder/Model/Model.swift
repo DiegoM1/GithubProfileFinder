@@ -47,6 +47,9 @@ class Model: ObservableObject {
             let newItem = RecentGithubProfile(id: userInfo.id, user: userInfo, repositories: repositories)
             let fetchDescriptor = FetchDescriptor<RecentGithubProfile>()
             let data = try? modelContext?.fetch(fetchDescriptor)
+            if data?.contains(where: { $0.id == userInfo.id }) ?? false {
+                return
+            }
             if data?.count ?? 0 >= 5 {
                 modelContext?.delete(data?.first ?? newItem)
                 modelContext?.insert(newItem)
