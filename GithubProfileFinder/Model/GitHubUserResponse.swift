@@ -13,6 +13,7 @@ struct GitHubUserResponse: Identifiable, Codable, Hashable {
     var login: String
     var avatarUrl: String
     var url: String
+    var location: String?
     var reposUrl: String
     var followers: Int
     var following: Int

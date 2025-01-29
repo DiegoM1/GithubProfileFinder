@@ -32,7 +32,7 @@ struct RepositorieCell: View {
             HStack {
                 ForEach(reposData.topics.prefix(4), id: \.self) { topic in
                     Text(topic)
-                        .font(.subheadline)
+                        .font(.system(size: 10))
                         .fontWeight(.semibold)
                         .padding(.vertical, 4)
                         .padding(.horizontal, 8)

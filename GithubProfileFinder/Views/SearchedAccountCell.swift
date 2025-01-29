@@ -32,6 +32,11 @@ struct SearchedAccountCell: View {
                     Text(name)
                         .font(.title3)
                         .fontWeight(.semibold)
+                    if let location = userData.location {
+                        Text(location)
+                            .font(.subheadline)
+                            .fontWeight(.light)
+                    }
                 }
                 HStack(alignment: .bottom) {
                     Text("\(userData.createdAt.formatterDate())")
@@ -51,5 +56,5 @@ struct SearchedAccountCell: View {
 }
 
 #Preview {
-    SearchedAccountCell(userData: GitHubUserResponse(id: 1, name: "Diego Monteagudo", login: "Diego", avatarUrl: "", url: "", reposUrl: "", followers: 2, following: 3, createdAt: "2019-08-31T17:00:49Z", publicRepos: 21))
+    SearchedAccountCell(userData: GitHubUserResponse(id: 1, name: "Diego Monteagudo", login: "Diego", avatarUrl: "https://avatars.githubusercontent.com/u/54748910?v=4", url: "", location: "Peru", reposUrl: "", followers: 2, following: 3, createdAt: "2019-08-31T17:00:49Z", publicRepos: 21))
 }
