@@ -57,7 +57,6 @@ struct ProfileDetails: View {
                             Text(String(userInfo.followers))
                                 .fontWeight(.black)
                             Text("Followers")
-
                                 .fontWeight(.light)
                                 .foregroundStyle(.gray)
                         }
