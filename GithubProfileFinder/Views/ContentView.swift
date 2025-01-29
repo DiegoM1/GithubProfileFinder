@@ -14,7 +14,7 @@ struct ContentView: View {
     @Query private var profiles: [RecentGithubProfile]
 
     @StateObject var model = Model()
-    @State var scheme = true
+    @State var scheme = UserDefaults.standard.value(forKey: "scheme") as? Bool ?? true
     @State var searchText = ""
     var services: GitHubProfileFinderServicesProtocol
 
@@ -115,14 +115,8 @@ struct ContentView: View {
                 model.viewState = .searching
             }
         })
-        .preferredColorScheme(scheme ? .light : .dark)
-        .onAppear(perform: {
-            guard let schemeColor = UserDefaults.standard.value(forKey: "scheme") as? Bool else {
-                return
-            }
-            scheme = schemeColor
-        })
         .searchable(text: $searchText, prompt: Text("Search"))
+        .preferredColorScheme(scheme ? .light : .dark)
         .onChange(of: scheme) {
             UserDefaults.standard.set(scheme, forKey: "scheme")
         }

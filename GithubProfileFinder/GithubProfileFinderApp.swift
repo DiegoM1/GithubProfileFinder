@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct GithubProfileFinderApp: App {
+    @State var scheme = UserDefaults.standard.bool(forKey: "scheme")
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             RecentGithubProfile.self,
