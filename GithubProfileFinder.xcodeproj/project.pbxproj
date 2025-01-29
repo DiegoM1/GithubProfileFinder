@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 73;
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
@@ -29,9 +29,37 @@
 		221E5EFC2D36004400F84AC2 /* GithubProfileFinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GithubProfileFinderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		22DC985A2D49D9A500CBDF32 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				RepositoriesMockResponse.json,
+				UserMockResponse.json,
+			);
+			target = 221E5EDC2D36004200F84AC2 /* GithubProfileFinder */;
+		};
+		22DC985E2D49DB7A00CBDF32 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				RepositoriesMockResponse.json,
+			);
+			target = 221E5EF12D36004400F84AC2 /* GithubProfileFinderTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		22DC985F2D49DB7A00CBDF32 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 221E5EEE2D36004400F84AC2 /* Sources */;
+			membershipExceptions = (
+				RepositoriesMockResponse.json,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		221E5EDF2D36004200F84AC2 /* GithubProfileFinder */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GithubProfileFinder; sourceTree = "<group>"; };
-		221E5EF52D36004400F84AC2 /* GithubProfileFinderTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GithubProfileFinderTests; sourceTree = "<group>"; };
+		221E5EF52D36004400F84AC2 /* GithubProfileFinderTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (22DC985A2D49D9A500CBDF32 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 22DC985E2D49DB7A00CBDF32 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 22DC985F2D49DB7A00CBDF32 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = GithubProfileFinderTests; sourceTree = "<group>"; };
 		221E5EFF2D36004400F84AC2 /* GithubProfileFinderUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GithubProfileFinderUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -175,7 +203,6 @@
 				};
 			};
 			buildConfigurationList = 221E5ED82D36004200F84AC2 /* Build configuration list for PBXProject "GithubProfileFinder" */;
-			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -184,6 +211,7 @@
 			);
 			mainGroup = 221E5ED42D36004200F84AC2;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 55;
 			productRefGroup = 221E5EDE2D36004200F84AC2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

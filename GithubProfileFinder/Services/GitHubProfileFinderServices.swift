@@ -12,7 +12,7 @@ protocol GitHubProfileFinderServicesProtocol {
     func fetchRepos(reposUrl: String) async throws -> [GitHubReposResponse]
 }
 
-class GitHubProfileFinderServices: GitHubProfileFinderServicesProtocol, ObservableObject {
+class GitHubProfileFinderServices: GitHubProfileFinderServicesProtocol {
     var constantValues: GitHubProfileConstantValues
 
     init(constantValues: GitHubProfileConstantValues = GitHubProfileConstantValues()) {
