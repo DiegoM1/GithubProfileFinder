@@ -83,6 +83,9 @@ struct ContentView: View {
                                 SearchedAccountCell(userData: info.user)
                             }
                         }
+                        .onDelete { index in
+                            deleteItems(offsets: index)
+                        }
                     }
                 }
             }
@@ -132,7 +135,7 @@ struct ContentView: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(profiles[index])
+                modelContext.delete(filteredProfiles[index])
             }
         }
     }
