@@ -11,11 +11,12 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.colorScheme) var colorScheme
+    @AppStorage("scheme") var scheme: Bool = true
+    @StateObject var model = Model()
+    @State var searchText = ""
+
     @Query private var profiles: [RecentGithubProfile]
 
-    @StateObject var model = Model()
-    @State var scheme = UserDefaults.standard.value(forKey: "scheme") as? Bool ?? true
-    @State var searchText = ""
     var services: GitHubProfileFinderServicesProtocol
 
     var filteredProfiles: [RecentGithubProfile] {
@@ -117,9 +118,6 @@ struct ContentView: View {
         })
         .searchable(text: $searchText, prompt: Text("Search"))
         .preferredColorScheme(scheme ? .light : .dark)
-        .onChange(of: scheme) {
-            UserDefaults.standard.set(scheme, forKey: "scheme")
-        }
         .onSubmit(of: .search) {
             model.viewState = .loading
             Task {
