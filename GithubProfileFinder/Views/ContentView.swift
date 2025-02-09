@@ -120,6 +120,7 @@ struct ContentView: View {
             }
         })
         .searchable(text: $searchText, prompt: Text("Search"))
+        .tint(scheme ? .black : .white)
         .preferredColorScheme(scheme ? .light : .dark)
         .onSubmit(of: .search) {
             model.viewState = .loading

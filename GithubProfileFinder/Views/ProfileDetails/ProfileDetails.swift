@@ -22,7 +22,7 @@ struct ProfileDetails: View {
         if let userInfo = model.userInfo {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .center, spacing: 0) {
-                    ProfileDetailsHeaderView(userInfo: userInfo, height: size, colorScheme)
+                    ProfileDetailsHeaderView(userInfo: userInfo, height: size)
                     Spacer(minLength: 0)
                     if let name = userInfo.name {
                         Text(name)
@@ -72,14 +72,26 @@ struct ProfileDetails: View {
                     .padding(.horizontal, 12)
                     .padding(.top, 24)
                     if let recentRepositories = recentRepositories {
-                        LazyVStack(alignment: .leading) {
-                            Text("Recent Updated")
-                            ForEach(recentRepositories) { repo in
-                                RepositorieCell(reposData: repo)
-                                    .padding(.bottom, 15)
+                        if recentRepositories.isEmpty {
+                            VStack {
+                                Image(systemName: "text.page.slash")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                Text("No Repositories Found")
+                                    .font(.title2)
+                                    .fontWeight(.medium)
                             }
+                            .padding()
+                        } else {
+                            LazyVStack(alignment: .leading) {
+                                Text("Recent Updated")
+                                ForEach(recentRepositories) { repo in
+                                    RepositorieCell(reposData: repo)
+                                        .padding(.bottom, 15)
+                                }
+                            }
+                            .padding()
                         }
-                        .padding()
                     } else {
                         ProgressView()
                     }

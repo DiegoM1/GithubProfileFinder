@@ -9,14 +9,13 @@ import SwiftUI
 
 extension ProfileDetails {
     struct ProfileDetailsHeaderView: View {
+        @Environment(\.colorScheme) var colorScheme
         let userInfo: GitHubUserResponse
         let height: CGFloat
-        let colorScheme: ColorScheme
 
-        init(userInfo: GitHubUserResponse, height: CGFloat, _ colorScheme: ColorScheme) {
+        init(userInfo: GitHubUserResponse, height: CGFloat) {
             self.userInfo = userInfo
             self.height = height
-            self.colorScheme = colorScheme
         }
 
         var body: some View {
