@@ -46,27 +46,9 @@ struct ProfileDetails: View {
                                 .fontWeight(.light)
                                 .foregroundStyle(.gray)
                         }
-                        VStack(alignment: .center) {
-                            Text("\(self.getStarts())")
-                                .fontWeight(.black)
-                            Text("Stars")
-                                .fontWeight(.light)
-                                .foregroundStyle(.gray)
-                        }
-                        VStack(alignment: .center) {
-                            Text(String(userInfo.followers))
-                                .fontWeight(.black)
-                            Text("Followers")
-                                .fontWeight(.light)
-                                .foregroundStyle(.gray)
-                        }
-                        VStack(alignment: .center) {
-                            Text(String(userInfo.following))
-                                .fontWeight(.black)
-                            Text("Following")
-                                .fontWeight(.light)
-                                .foregroundStyle(.gray)
-                        }
+                        ProfileInfoCell(title: "Stars", quantity: "\(self.getStarts())")
+                        ProfileInfoCell(title: "Followers", quantity: String(userInfo.followers))
+                        ProfileInfoCell(title: "Following", quantity: String(userInfo.following))
 
                     }
                     .padding(.horizontal, 12)
@@ -115,10 +97,26 @@ struct ProfileDetails: View {
         }
     }
 
-    private func getStarts() -> Int {
+    func getStarts() -> Int {
         model.repositoriesInfo?.reduce(0, { partialResult, response in
             partialResult + response.stargazersCount
         }) ?? 0
+    }
+}
+
+private extension ProfileDetails {
+    struct ProfileInfoCell: View {
+        var title: String
+        var quantity: String
+        var body: some View {
+            VStack(alignment: .center) {
+                Text(quantity)
+                    .fontWeight(.black)
+                Text(title)
+                    .fontWeight(.light)
+                    .foregroundStyle(.gray)
+            }
+        }
     }
 }
 
